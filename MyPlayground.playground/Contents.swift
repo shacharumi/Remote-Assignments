@@ -23,5 +23,6 @@
  n. (Advanced) git reflog\
  o. (Advanced) git tag\
 
+ use for look diff
  
  */
