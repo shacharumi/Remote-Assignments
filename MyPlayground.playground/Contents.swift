@@ -23,6 +23,6 @@
  n. (Advanced) git reflog\
  o. (Advanced) git tag\
         
- 
+ first
  
  */
