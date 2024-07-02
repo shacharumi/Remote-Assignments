@@ -36,9 +36,9 @@ class ViewController: UIViewController {
             checkTextField.isEnabled = true
             checkTextField.alpha = 1
         }
-        checkTextField.text = " "
-        accountTextField.text = " "
-        passWordTextField.text = " "
+        checkTextField.text = ""
+        accountTextField.text = ""
+        passWordTextField.text = ""
         segmentText.setTitleTextAttributes([.foregroundColor : UIColor.black], for: .normal)
         segmentText.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .selected)
     }
@@ -50,7 +50,7 @@ class ViewController: UIViewController {
         let check = checkTextField.text
         
         if account?.isEmpty == true {
-                showAlert(message: "Account should not be empty.")
+            showAlert(message: "Account should not be empty.")
         }
         
         if password?.isEmpty == true {
@@ -62,7 +62,7 @@ class ViewController: UIViewController {
         }
         
         //輸入正確
-        if account != "appworks_school" || password != "1234" && !checkTextField.isEnabled {
+        if (account != "appworks_school" || password != "1234" ) && checkTextField.isEnabled == false {
             showAlert(message: "Login fail")
         }else if account == "appworks_school" && password == "1234" && !checkTextField.isEnabled{
             reShowAlert(message: "log in")
