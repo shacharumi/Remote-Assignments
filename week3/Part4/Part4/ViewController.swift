@@ -51,18 +51,14 @@ class ViewController: UIViewController {
         
         if account?.isEmpty == true {
             showAlert(message: "Account should not be empty.")
-        }
-        
-        if password?.isEmpty == true {
+        }else if password?.isEmpty == true {
             showAlert(message: "Password should not be empty")
-        }
-        
-        if check?.isEmpty == true  && checkTextField.isEnabled{
+        }else if check?.isEmpty == true  && checkTextField.isEnabled{
             showAlert(message: "Check Password should not be empty")
         }
         
         //輸入正確
-        if (account != "appworks_school" || password != "1234" ) && checkTextField.isEnabled == false {
+        if (account != "appworks_school" || password != "1234" ) && !checkTextField.isEnabled  {
             showAlert(message: "Login fail")
         }else if account == "appworks_school" && password == "1234" && !checkTextField.isEnabled{
             reShowAlert(message: "log in")
