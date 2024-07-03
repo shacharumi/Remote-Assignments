@@ -49,28 +49,40 @@ class ViewController: UIViewController {
         let password = passWordTextField.text
         let check = checkTextField.text
         
+        switch segmentText.selectedSegmentIndex{
+        case 0:
+            
         if account?.isEmpty == true {
             showAlert(message: "Account should not be empty.")
         }else if password?.isEmpty == true {
             showAlert(message: "Password should not be empty")
-        }else if check?.isEmpty == true  && checkTextField.isEnabled{
+        }
+        
+        if (account != "appworks_school" || password != "1234" ) {
+            showAlert(message: "Login fail")
+        }else if account == "appworks_school" && password == "1234" {
+            reShowAlert(message: "log in")
+        }
+            
+        case 1:
+            
+        if account?.isEmpty == true {
+            showAlert(message: "Account should not be empty.")
+        }else if password?.isEmpty == true {
+            showAlert(message: "Password should not be empty")
+        }else if check?.isEmpty == true  {
             showAlert(message: "Check Password should not be empty")
         }
         
-        //輸入正確
-        if (account != "appworks_school" || password != "1234" ) && !checkTextField.isEnabled  {
-            showAlert(message: "Login fail")
-        }else if account == "appworks_school" && password == "1234" && !checkTextField.isEnabled{
-            reShowAlert(message: "log in")
-        }
-        
-        //密碼跟驗證不相同 或者 帳號為空
-        if password != check  && checkTextField.isEnabled {
+        if password != check {
             showAlert(message: "signup fail")
         }
-        //密碼跟驗證相同 並且 帳號不為空
+            //密碼跟驗證相同 並且 帳號不為空
         if password == check && account?.isEmpty == false{
             reShowAlert(message: "sign up")
+        }
+        default:
+            print("error")
         }
     }
     
