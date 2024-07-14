@@ -4,6 +4,7 @@ func printPyramid(layers: Int) {
             print(" ", terminator: "")
         }
         for k in 0...(2*i){
+            print(k, terminator: "")
             print("*", terminator: "")
         }
         print("")

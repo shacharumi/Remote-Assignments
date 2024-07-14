@@ -7,6 +7,17 @@
 
 import UIKit
 
+struct type : Codable {
+    let stationID : String
+    let stationName : String
+    let stationAddress : String
+}
+
+enum GHError : Error {
+    case invalidURL
+    case invalidData
+}
+
 class ViewController: UIViewController {
     @IBOutlet weak var stationId: UILabel!
     @IBOutlet weak var stationName: UILabel!
@@ -14,36 +25,35 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData()
+        
+        Task{
+            do {
+                let station = try await fetchData()
+                DispatchQueue.main.async {
+                    self.stationId.text = station.stationID
+                    self.stationName.text = station.stationName
+                    self.stationAddress.text = station.stationAddress
+                }
+            } catch {
+                print(error)
+            }
+        }
+        
     }
     
-    func fetchData(){
-        let url = URL(string: "https://remote-assignment.s3.ap-northeast-1.amazonaws.com/station")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: request) {
-          
-          (data, response, error) in
-            if let data = data {
-                do{
-                    // data 轉 dictionary
-                    if let postResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String : String] {
-                        print(postResponse)
-                        //注意線程
-                        DispatchQueue.main.async{
-                            self.stationId.text = postResponse["stationID"]
-                            self.stationName.text = postResponse["stationName"]
-                            self.stationAddress.text = postResponse["stationAddress"]
-                        }
-                    }
-                }catch {
-                    print(error)
-                }
-            }
-          
+    func fetchData() async throws -> type{
+        let url = "https://remote-assignment.s3.ap-northeast-1.amazonaws.com/station"
+        guard let request = URL(string: url) else{
+            throw GHError.invalidURL
         }
-        task.resume()
+        let (data, response) = try await URLSession.shared.data(from: request )
+        do {
+            let decoder = JSONDecoder()
+            return try decoder.decode(type.self, from: data)
+        } catch {
+            throw GHError.invalidData
+        }
     }
+    
 }
 
